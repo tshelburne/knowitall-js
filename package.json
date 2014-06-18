@@ -1,0 +1,31 @@
+{
+  "name": "knowitall",
+  "version": "0.0.0",
+  "description": "",
+  "main": "dist/knowitall.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "grunt"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tshelburne/knowitall-js.git"
+  },
+  "keywords": [
+    "HTML5",
+    "validation",
+    "native"
+  ],
+  "author": "Tim Shelburne",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tshelburne/knowitall-js/issues"
+  },
+  "homepage": "https://github.com/tshelburne/knowitall-js",
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "karma": "^0.12.16"
+  }
+}
