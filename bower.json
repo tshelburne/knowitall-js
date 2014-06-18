@@ -1,0 +1,22 @@
+{
+  "name": "knowitall",
+  "version": "0.0.0",
+  "authors": [
+    "Tim Shelburne <shelburt02@gmail.com>"
+  ],
+  "description": "A library to register new input validators with native HTML5 browser notifications.",
+  "keywords": [
+    "HTML5",
+    "validation",
+    "native"
+  ],
+  "license": "MIT",
+  "homepage": "git@github.com:tshelburne/knowitall-js.git",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
