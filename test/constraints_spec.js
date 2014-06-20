@@ -58,4 +58,42 @@ define(function(require) {
 
 	});
 
+	describe('the credit card constraint', function() {
+
+		var Constraint = require('constraints/credit_card_constraint');
+		var constraint = new Constraint();
+
+		var ccInput = function(value) {
+			return getInput('creditcard', value);
+		}
+
+		it('responds to type \'creditcard\'', function() {
+			spyOn(constraint, 'check').andReturn(false);
+
+			expect(constraint.fails(ccInput())).toBeTruthy();
+			expect(constraint.fails(getInput('text'))).toBeFalsy();
+		});
+
+		it('recognizes a valid credit card number', function() {
+			expect(constraint.fails(ccInput('4111111111111111'))).toBeFalsy();
+		});
+
+		it('fails with too few digits', function() {
+			expect(constraint.fails(ccInput('4111111111'))).toBeTruthy();
+		});
+
+		it('fails with non-numeric values', function() {
+			expect(constraint.fails(ccInput('411111111111asdf'))).toBeTruthy();
+		});
+
+		it('fails with spaces', function() {
+			expect(constraint.fails(ccInput('4111 1111 1111 1111'))).toBeTruthy();
+		});
+
+		it('fails with dashes', function() {
+			expect(constraint.fails(ccInput('4111-1111-1111-1111'))).toBeTruthy();
+		});
+
+	});
+
 });
