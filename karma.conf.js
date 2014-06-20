@@ -19,7 +19,7 @@ module.exports = function(config) {
       {pattern: 'src/*.js', included: false},
       {pattern: 'src/**/*.js', included: false},
       {pattern: 'test/*.js', included: false},
-      // {pattern: 'test/**/*.js', included: false}
+      {pattern: 'test/**/*.js', included: false}
     ],
 
 
