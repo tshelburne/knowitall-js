@@ -60,7 +60,7 @@ define(function(require) {
 
 		var ccInput = function(value) {
 			return Builder.buildInput('creditcard', value);
-		}
+		};
 
 		it('responds to type \'creditcard\'', function() {
 			spyOn(constraint, 'check').andReturn(false);

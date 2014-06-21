@@ -13,7 +13,7 @@ define(function() {
 	 */
 
 	var Constraint = function(type, check, error) {
-		if (!(typeof(type) === 'string')) {
+		if (typeof(type) !== 'string') {
 			throw new TypeError('Only strings may be used for the constraint type.');
 		}
 

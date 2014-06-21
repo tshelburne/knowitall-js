@@ -15,14 +15,14 @@ define(['constraints/constraint'], function(BaseConstraint) {
 	var constraintFails = function(element) {
 		return function(constraint) { 
 			return constraint.fails(element); 
-		}
-	}
+		};
+	};
 
 	var validatableElements = function(form) {
 		return Array.prototype.filter.call(form.elements, function(element) {
 			return [ 'INPUT', 'SELECT', 'TEXTAREA' ].indexOf(element.nodeName) >= 0;
 		});
-	}
+	};
 
 	/**
 	 * MODULE
