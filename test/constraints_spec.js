@@ -73,6 +73,14 @@ define(function(require) {
 			expect(constraint.fails(ccInput('4111111111111111'))).toBeFalsy();
 		});
 
+		it('fails with a null value', function() {
+			expect(constraint.fails(ccInput(null))).toBeTruthy();
+		});
+
+		it('fails with the empty string', function() {
+			expect(constraint.fails(ccInput(''))).toBeTruthy();
+		});
+
 		it('fails with too few digits', function() {
 			expect(constraint.fails(ccInput('4111111111'))).toBeTruthy();
 		});
