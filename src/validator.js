@@ -1,4 +1,4 @@
-define(['constraints/constraint'], function(BaseConstraint) {
+define(['constraints/constraint', 'util/forms'], function(BaseConstraint, FormUtil) {
 
 	/**
 	 * HELPERS
@@ -16,12 +16,6 @@ define(['constraints/constraint'], function(BaseConstraint) {
 		return function(constraint) { 
 			return constraint.fails(element); 
 		};
-	};
-
-	var validatableElements = function(form) {
-		return Array.prototype.filter.call(form.elements, function(element) {
-			return [ 'INPUT', 'SELECT', 'TEXTAREA' ].indexOf(element.nodeName) >= 0;
-		});
 	};
 
 	/**
@@ -46,7 +40,7 @@ define(['constraints/constraint'], function(BaseConstraint) {
 	 * runs custom validation over all elements in the form, returns whether the form is entirely valid
 	 */
 	Validator.prototype.validateForm = function(form) {
-		formElements = validatableElements(form);
+		formElements = FormUtil.elements(form);
 
 		var l = formElements.length;
 		for (var i = 0; i < l; i++) {
