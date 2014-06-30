@@ -152,6 +152,26 @@ define(function(require) {
 
 		});
 
+		describe('when determining the most active submit element', function() {
+
+			it('returns the active element if it is a submit for the form', function() {
+				this.inFormSubmitButton.focus();
+				expect(FormUtil.activeSubmit(this.form)).toEqual(this.inFormSubmitButton);
+				this.inFormResetButton.focus();
+				expect(FormUtil.activeSubmit(this.form)).not.toEqual(this.inFormResetButton);
+			});
+
+			it('returns the first submit element if the active element is not a form submit', function() {
+				this.input1.focus();
+				expect(FormUtil.activeSubmit(this.form)).toEqual(this.submit);
+			});
+
+			it('returns the first submit element if there is no active element', function() {
+				expect(FormUtil.activeSubmit(this.form)).toEqual(this.submit);
+			});
+
+		});
+
 	});
 
 });

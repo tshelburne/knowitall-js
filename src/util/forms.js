@@ -41,6 +41,16 @@ define(function() {
 		return false;
 	};
 
+	/**
+	 * @param HTMLFormElement
+	 * @return HTMLButtonElement | HTMLInputElement
+	 */
+	FormUtil.prototype.activeSubmit = function(form) {
+		allSubmits = this.submits(form);
+
+		return allSubmits.indexOf(document.activeElement) >= 0 ? document.activeElement : allSubmits[0];
+	}
+
 	return new FormUtil();
 
 });
