@@ -2,8 +2,8 @@ define(function(require) {
 
 	var Validator = require('validator');
 	var CreditCardConstraint = require('constraints/credit_card_constraint');
-	var EventSupport = require('support/events');
-
+	var EventUtil = require('util/events');
+	
 	// Set up native validator
 	var validator = new Validator();
 	validator.register(new CreditCardConstraint());
