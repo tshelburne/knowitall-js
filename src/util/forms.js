@@ -49,7 +49,7 @@ define(function() {
 		allSubmits = this.submits(form);
 
 		return allSubmits.indexOf(document.activeElement) >= 0 ? document.activeElement : allSubmits[0];
-	}
+	};
 
 	return new FormUtil();
 
