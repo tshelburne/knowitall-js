@@ -1,9 +1,9 @@
 define(function(require) {
 
-	var Builder = require('test/support/builder.js');
-	var FormUtil = require('util/forms');
-
 	describe('form utility functions', function() {
+
+		var Builder = require('test/support/builder.js');
+		var FormUtil = require('util/forms');
 
 		beforeEach(function() {
 			// build form components
