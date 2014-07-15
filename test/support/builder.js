@@ -2,16 +2,16 @@ define(function() {
 
 	return {
 
-		buildInput: function(type, value) {
+		buildInput: function(type, value, attrs) {
 			var input = document.createElement('input');
-			input.type = type || 'text';
-			input.value = value || 'test value';
+			input.setAttribute('type', type || 'text');
+			input.setAttribute('value', value || 'test value');
 			return input;
 		},
 
-		buildForm: function(inputs) {
-			return inputs.reduce(function(form, input) {
-				form.appendChild(input);
+		buildForm: function(elements) {
+			return elements.reduce(function(form, element) {
+				form.appendChild(element);
 				return form;
 			}, document.createElement('form'));
 		}
