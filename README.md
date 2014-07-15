@@ -52,6 +52,11 @@ My primary goal with knowitall was to make registering custom validation constra
 
 	There are **no** markup requirements or DOM manipulations in this library - you can work with a knowitall error message in exactly the same way as you work with a native browser error message. Consequently, the code that you use for native validations will work immediately for your custom validations.
 
+1. Must support all HTML5 validation specs
+	
+	- `novalidate` and `formnovalidate`
+	- `setCustomValidity` and `validity` standards
+
 1. It's just Javascript
 
 	The library does not rely on Jquery, YUI, or any other monolithic libraries. It's only *potential* dependency is [H5F](https://github.com/ryanseddon/H5F), an HTML5 validation polyfill for old browsers. That said, the library is available built without H5F included if you are only targeting modern browsers.
