@@ -4,15 +4,15 @@ define(['constraints/constraint', 'util/forms'], function(BaseConstraint, FormUt
 	 * HELPERS
 	 */
 
-	var setCustomError = function(element, message) {
+	var _setCustomError = function(element, message) {
 		element.setCustomValidity(message);
 	};
 
-	var clearCustomError = function(element) {
-		setCustomError(element, '');
+	var _clearCustomError = function(element) {
+		_setCustomError(element, '');
 	};
 
-	var constraintFails = function(element) {
+	var _constraintFails = function(element) {
 		return function(constraint) { 
 			return constraint.fails(element); 
 		};
@@ -55,12 +55,12 @@ define(['constraints/constraint', 'util/forms'], function(BaseConstraint, FormUt
 	 * runs custom validation over the given element, returns whether the element is valid
 	 */
 	Validator.prototype.validateElement = function(element) {
-		clearCustomError(element);
+		_clearCustomError(element);
 
-		failingConstraints = this._constraints.filter(constraintFails(element));
+		failingConstraints = this._constraints.filter(_constraintFails(element));
 
 		if (failingConstraints.length) {
-			setCustomError(element, failingConstraints[0].errorMessage(element));
+			_setCustomError(element, failingConstraints[0].errorMessage(element));
 		}
 
 		// we rely on built in methods because it will check for native validations also
