@@ -82,6 +82,11 @@ define(function(require) {
 		_validator.register(new Constraint(type, check, error));
 	};
 
+	// Allows deregistering a custom constraint
+	_KnowItAll.prototype.deregisterConstraint = function(type) {
+		_validator.deregister(type);
+	};
+
 	var knowItAll = new _KnowItAll();
 
 	Array.prototype.forEach.call(document.forms, function(form) {
