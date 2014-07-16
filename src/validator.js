@@ -36,6 +36,15 @@ define(['constraints/constraint', 'util/forms'], function(BaseConstraint, FormUt
 		this._constraints.push(constraint);
 	};
 
+	/**
+	 * registers a new constraint with the validator
+	 */
+	Validator.prototype.deregister = function(type) {
+		this._constraints = this._constraints.filter(function(constraint) {
+			return constraint.type !== type;
+		});
+	};
+
 	/** 
 	 * runs custom validation over all elements in the form, returns whether the form is entirely valid
 	 */
