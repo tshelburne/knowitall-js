@@ -47,7 +47,7 @@ define(function(require) {
 	 * An instance of _KnowItAll is the exclusive interface for developers
 	 */
 	var _KnowItAll = function() {
-		this.handledForms = [];
+		this._handledForms = [];
 	};
 
 	// Registers a form to be auto-validated on submit
@@ -57,7 +57,7 @@ define(function(require) {
 			FormUtil.submits(form).forEach(function(submit) { 
 				EventUtil.addEventHandler(submit, 'click', _handleClick);
 			});
-			this.handledForms.push(form);
+			this._handledForms.push(form);
 		}
 	};
 
@@ -68,18 +68,23 @@ define(function(require) {
 			FormUtil.submits(form).forEach(function(submit) { 
 				EventUtil.removeEventHandler(submit, 'click', _handleClick);
 			});
-			this.handledForms.splice(this.handledForms.indexOf(form), 1);
+			this._handledForms.splice(this._handledForms.indexOf(form), 1);
 		}
 	};
 
 	// Checks whether the given form is currently registered
 	_KnowItAll.prototype.hasForm = function(form) {
-		return this.handledForms.indexOf(form) >= 0;
+		return this._handledForms.indexOf(form) >= 0;
 	};
 
 	// Allows registering a custom constraint with the validator
 	_KnowItAll.prototype.registerConstraint = function(type, check, error) {
 		_validator.register(new Constraint(type, check, error));
+	};
+
+	// Allows deregistering a custom constraint
+	_KnowItAll.prototype.deregisterConstraint = function(type) {
+		_validator.deregister(type);
 	};
 
 	var knowItAll = new _KnowItAll();

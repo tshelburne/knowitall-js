@@ -6,6 +6,7 @@ define(function(require) {
 		var Builder = require('test/support/builder.js');
 		var knowItAll = require('knowitall');
 
+
 		beforeEach(function() {
 			this.ccInput = Builder.buildInput('creditcard', 'badvalue');
 			this.submit  = Builder.buildInput('submit');
@@ -40,6 +41,46 @@ define(function(require) {
 				this.ccInput.value = '4111111111111111';
 				this.submit.click();
 				expect(this.ccInput.validity.valid).toBeTruthy();
+				expect(this.swallowSubmit).toHaveBeenCalled();
+			});
+
+		});
+
+		describe('registering custom constraints', function() {
+
+			beforeEach(function() {
+				this.ccInput.value = '4111111111111111';
+				this.switchInput = Builder.buildInput('switch');
+				this.form.appendChild(this.switchInput);
+			});
+
+			afterEach(function() {
+				knowItAll.deregisterConstraint('switch');
+			});
+
+			it('will fail validation with a custom registered constraint', function() {
+				knowItAll.registerConstraint('switch', function(element) { return false; }, 'The switch is invalid.');
+				this.submit.click();
+				expect(this.switchInput.validity.valid).toBeFalsy();
+				expect(this.switchInput.validationMessage).toEqual('The switch is invalid.');
+				expect(this.swallowSubmit).not.toHaveBeenCalled();
+			});
+
+			it('will pass validation with a custom registered constraint', function() {
+				knowItAll.registerConstraint('switch', function(element) { return true; }, 'The switch is invalid.');
+				this.submit.click();
+				expect(this.switchInput.validity.valid).toBeTruthy();
+				expect(this.switchInput.validationMessage).toEqual('');
+				expect(this.swallowSubmit).toHaveBeenCalled();
+			});
+
+		});
+
+		describe('registering forms', function() {
+			
+			it('will not validate unregistered forms', function() {
+				knowItAll.deregisterForm(this.form);
+				this.submit.click();
 				expect(this.swallowSubmit).toHaveBeenCalled();
 			});
 

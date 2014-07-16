@@ -24,6 +24,12 @@ define(function(require) {
         expect(this.validator._constraints).toContain(constraint);
       });
 
+      it('removes the constraint', function() {
+        this.validator.register(constraint = new CreditCardConstraint());
+        this.validator.deregister('creditcard');
+        expect(this.validator._constraints).not.toContain(constraint);
+      });
+
     });
 
     describe('when validating forms', function() {

@@ -65,7 +65,7 @@ define(function(require) {
 			};
 
 			it('responds to type \'creditcard\'', function() {
-				spyOn(constraint, 'check').andReturn(false);
+				spyOn(constraint, '_check').andReturn(false);
 
 				expect(constraint.fails(ccInput())).toBeTruthy();
 				expect(constraint.fails(Builder.buildInput('text'))).toBeFalsy();

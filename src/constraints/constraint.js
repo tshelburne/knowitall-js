@@ -4,7 +4,7 @@ define(function() {
 	 * HELPERS
 	 */
 
-	var isFunc = function(obj) {
+	var _isFunc = function(obj) {
 		return obj instanceof Function;
 	};
 
@@ -18,16 +18,16 @@ define(function() {
 		}
 
 		this.type  = type;
-		this.check = check;
-		this.error = error || 'There is a problem with your input.';
+		this._check = check;
+		this._error = error || 'There is a problem with your input.';
 	};
 
 	Constraint.prototype.fails = function(element) {
-		return element.getAttribute('type') === this.type && !this.check(element);
+		return element.getAttribute('type') === this.type && !this._check(element);
 	};
 
 	Constraint.prototype.errorMessage = function(element) {
-		return isFunc(this.error) ? this.error(element) : this.error;
+		return _isFunc(this._error) ? this._error(element) : this._error;
 	};
 
 	return Constraint;
