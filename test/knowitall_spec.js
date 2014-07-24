@@ -48,30 +48,109 @@ define(function(require) {
 
 		describe('registering custom constraints', function() {
 
-			beforeEach(function() {
-				this.ccInput.value = '4111111111111111';
-				this.switchInput = Builder.buildInput('switch');
-				this.form.appendChild(this.switchInput);
-			});
-
-			afterEach(function() {
-				knowItAll.deregisterConstraint('switch');
-			});
-
-			it('will fail validation with a custom registered constraint', function() {
-				knowItAll.registerConstraint('switch', function(element) { return false; }, 'The switch is invalid.');
+			var _expectInvalidSwitch = function() {
 				this.submit.click();
 				expect(this.switchInput.validity.valid).toBeFalsy();
 				expect(this.switchInput.validationMessage).toEqual('The switch is invalid.');
 				expect(this.swallowSubmit).not.toHaveBeenCalled();
-			});
+			};
 
-			it('will pass validation with a custom registered constraint', function() {
-				knowItAll.registerConstraint('switch', function(element) { return true; }, 'The switch is invalid.');
+			var _expectValidSwitch = function() {
 				this.submit.click();
 				expect(this.switchInput.validity.valid).toBeTruthy();
 				expect(this.switchInput.validationMessage).toEqual('');
 				expect(this.swallowSubmit).toHaveBeenCalled();
+			};
+
+			beforeEach(function() {
+				this.ccInput.value = '4111111111111111';
+				this.switchInput = Builder.buildInput();
+				this.form.appendChild(this.switchInput);
+			});
+
+			describe('by type', function() {
+
+				beforeEach(function() {
+					this.switchInput.setAttribute('type', 'switch');
+				});
+
+				afterEach(function() {
+					knowItAll.deregister(this.customConstraint);
+				});
+
+				it('will fail validation', function() {
+					this.customConstraint = knowItAll.registerType('switch', function(element) { return false; }, 'The switch is invalid.');
+					_expectInvalidSwitch.call(this);
+				});
+
+				it('will pass validation', function() {
+					this.customConstraint = knowItAll.registerType('switch', function(element) { return true; }, 'The switch is invalid.');
+					_expectValidSwitch.call(this);
+				});
+
+				it('will use type validation by default with the register method', function() {
+					this.customConstraint = knowItAll.register('switch', function(element) { return false; }, 'The switch is invalid.');
+					_expectInvalidSwitch.call(this);
+				});
+
+				it('will also check a default class', function() {
+					this.switchInput.setAttribute('type', 'text');
+					this.switchInput.setAttribute('class', 'knowitall-switch');
+					this.customConstraint = knowItAll.registerType('switch', function(element) { return false; }, 'The switch is invalid.');
+					_expectInvalidSwitch.call(this);
+				});
+
+			});
+
+			describe('by class', function() {
+
+				beforeEach(function() {
+					this.switchInput.setAttribute('class', 'switch-class');
+				});
+
+				afterEach(function() {
+					knowItAll.deregister(this.customConstraint);
+				});
+
+				it('will fail validation', function() {
+					this.customConstraint = knowItAll.registerClass('switch-class', function(element) { return false; }, 'The switch is invalid.');
+					_expectInvalidSwitch.call(this);
+				});
+
+				it('will pass validation', function() {
+					this.customConstraint = knowItAll.registerClass('switch-class', function(element) { return true; }, 'The switch is invalid.');
+					_expectValidSwitch.call(this);
+				});
+
+			});
+
+			describe('by name', function() {
+
+				beforeEach(function() {
+					this.switchInput.setAttribute('name', 'switch-name');
+				});
+
+				afterEach(function() {
+					knowItAll.deregister(this.customConstraint);
+				});
+
+				it('will fail validation', function() {
+					this.customConstraint = knowItAll.registerName('switch-name', function(element) { return false; }, 'The switch is invalid.');
+					_expectInvalidSwitch.call(this);
+				});
+
+				it('will pass validation', function() {
+					this.customConstraint = knowItAll.registerName('switch-name', function(element) { return true; }, 'The switch is invalid.');
+					_expectValidSwitch.call(this);
+				});
+
+			});
+
+			it('will deregister constraints', function() {
+				this.switchInput.setAttribute('type', 'switch');
+				customConstraint = knowItAll.register('switch', function() { return false; }, 'The switch is invalid.');
+				knowItAll.deregister(this.switchInput);
+				_expectValidSwitch.call(this);
 			});
 
 		});

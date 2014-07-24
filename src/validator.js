@@ -4,6 +4,12 @@ define(['constraints/constraint', 'util/forms'], function(BaseConstraint, FormUt
 	 * HELPERS
 	 */
 
+	var _checkConstraint = function(constraint) {
+		if (!constraint instanceof BaseConstraint) {
+			throw new TypeError('Registered constraints must be an instance or child of Constraint.');
+		}
+	};
+
 	var _setCustomError = function(element, message) {
 		element.setCustomValidity(message);
 	};
@@ -30,19 +36,16 @@ define(['constraints/constraint', 'util/forms'], function(BaseConstraint, FormUt
 	 * registers a new constraint with the validator
 	 */
 	Validator.prototype.register = function(constraint) {
-		if (!constraint instanceof BaseConstraint) {
-			throw new TypeError('Registered constraints must be an instance or child of Constraint.');
-		}
+		_checkConstraint(constraint);
 		this._constraints.push(constraint);
 	};
 
 	/**
-	 * registers a new constraint with the validator
+	 * deregisters a custom constraint from the validator
 	 */
-	Validator.prototype.deregister = function(type) {
-		this._constraints = this._constraints.filter(function(constraint) {
-			return constraint.type !== type;
-		});
+	Validator.prototype.deregister = function(constraint) {
+		_checkConstraint(constraint);
+		this._constraints.splice(this._constraints.indexOf(constraint), 1);
 	};
 
 	/** 

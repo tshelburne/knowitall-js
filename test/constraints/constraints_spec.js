@@ -8,10 +8,6 @@ define(function(require) {
 
 			var Constraint = require('constraints/constraint');
 
-			it('throws without a string type', function() {
-				expect(function() { new Constraint(true); }).toThrow();
-			});
-
 			it('does not fail when the type does not match', function() {
 				var constraint = new Constraint('nomatch');
 				expect(constraint.fails(Builder.buildInput())).toBeFalsy();

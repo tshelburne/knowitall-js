@@ -1,4 +1,4 @@
-define(function() {
+define(['constraints/matchers/type_matcher'], function(TypeMatcher) {
 
 	/**
 	 * HELPERS
@@ -12,18 +12,24 @@ define(function() {
 	 * MODULE
 	 */
 
-	var Constraint = function(type, check, error) {
-		if (typeof(type) !== 'string') {
-			throw new TypeError('Only strings may be used for the constraint type.');
+	var Constraint = function(matchers, check, error) {
+		if (typeof(matchers) === 'string') {
+			matchers = [new TypeMatcher(matchers)];
 		}
-
-		this.type  = type;
+		
+		this._matchers = matchers;
 		this._check = check;
 		this._error = error || 'There is a problem with your input.';
 	};
 
+	Constraint.prototype.matches = function(element) {
+		return this._matchers.reduce(function(acc, matcher) {
+			return acc || matcher.matches(element);
+		}, false);	
+	};
+
 	Constraint.prototype.fails = function(element) {
-		return element.getAttribute('type') === this.type && !this._check(element);
+		return this.matches(element) && !this._check(element);
 	};
 
 	Constraint.prototype.errorMessage = function(element) {
