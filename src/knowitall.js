@@ -1,6 +1,8 @@
 define(function(require) {
 
 	var Validator = require('validator');
+	var AttrMatcher = require('constraints/matchers/attr_matcher');
+	var ClassMatcher = require('constraints/matchers/class_matcher');
 	var Constraint = require('constraints/constraint');
 	var CreditCardConstraint = require('constraints/credit_card_constraint');
 	var EventUtil = require('util/events');
@@ -9,6 +11,15 @@ define(function(require) {
 	// Set up native validator
 	var _validator = new Validator();
 	_validator.register(new CreditCardConstraint());
+
+	/**
+	 * HELPERS
+	 */
+
+	var _registerConstraint = function(constraint) {
+		_validator.register(constraint);
+		return constraint;
+	};
 
 	var _shouldValidate = function(form, submit) {
 		return !FormUtil.noValidate(form, submit);
@@ -43,9 +54,10 @@ define(function(require) {
 	};
 
 	/**
-	 * KnowItAll object
+	 * MODULE
 	 * An instance of _KnowItAll is the exclusive interface for developers
 	 */
+
 	var _KnowItAll = function() {
 		this._handledForms = [];
 	};
@@ -78,13 +90,23 @@ define(function(require) {
 	};
 
 	// Allows registering a custom constraint with the validator
-	_KnowItAll.prototype.registerConstraint = function(type, check, error) {
-		_validator.register(new Constraint(type, check, error));
+	_KnowItAll.prototype.register = _KnowItAll.prototype.registerType = function(type, check, error) {
+		return _registerConstraint(new Constraint(type, check, error));
+	};
+
+	// Allows registering a custom constraint with the validator
+	_KnowItAll.prototype.registerClass = function(klass, check, error) {
+		return _registerConstraint(new Constraint([new ClassMatcher(klass)], check, error));
+	};
+
+	// Allows registering a custom constraint with the validator
+	_KnowItAll.prototype.registerName = function(name, check, error) {
+		return _registerConstraint(new Constraint([new AttrMatcher('name', name)], check, error));
 	};
 
 	// Allows deregistering a custom constraint
-	_KnowItAll.prototype.deregisterConstraint = function(type) {
-		_validator.deregister(type);
+	_KnowItAll.prototype.deregister = function(constraint) {
+		_validator.deregister(constraint);
 	};
 
 	var knowItAll = new _KnowItAll();

@@ -26,7 +26,7 @@ define(function(require) {
 
       it('removes the constraint', function() {
         this.validator.register(constraint = new CreditCardConstraint());
-        this.validator.deregister('creditcard');
+        this.validator.deregister(constraint);
         expect(this.validator._constraints).not.toContain(constraint);
       });
 
